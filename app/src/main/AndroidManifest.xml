@@ -16,6 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".PhysicsActivity"
+            android:label="@string/title_activity_physics" >
+        </activity>
+        <activity
+            android:name=".DescriptionActivity"
+            android:label="@string/title_activity_description" >
+        </activity>
     </application>
 
 </manifest>

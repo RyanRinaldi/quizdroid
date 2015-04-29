@@ -32,8 +32,9 @@ public class MainActivity extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent next = new Intent(MainActivity.this, DescriptionActivity.class);
                 Log.i("MainActivity", "Firing intent " + next);
-                next.putExtra("categoryNumber", position);
-                next.putExtra("categoryArray", categories);
+                //next.putExtra("categoryNumber", position);
+                //next.putExtra("categoryArray", categories);
+                next.putExtra("categoryName", categories[position]);
                 startActivity(next);
             }
         });

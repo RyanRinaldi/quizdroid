@@ -5,4 +5,180 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_physics">PhysicsActivity</string>
     <string name="title_activity_description">DescriptionActivity</string>
+    <string name="title_activity_question">QuestionActivity</string>
+
+    <string name="physicsDescription">A natural science with a focus on the study of
+    matter. A general analysis of nature, conducted in order to understand how the universe
+    behaves</string>
+    <string name="mathDescription">Mathematics is the study of concepts, such as quantity
+    and statistics, that define relationships between figures and forms</string>
+    <string name="marvelDescription">Super heroes related to the Marvel comic book brand</string>
+
+    <string name="physics1Question">This is the world\'s slipperiest substance</string>
+    <string name="physics1A1">Bacon Grease</string>
+    <string name="physics1A2">Oil</string>
+    <string name="physics1A3">Teflon</string>
+    <string name="physics1A4">Silicon</string>
+    <string name="physics1Answer">Teflon</string>
+
+    <string name="physics2Question">This is the world\'s densest wood</string>
+    <string name="physics2A1">Applewood</string>
+    <string name="physics2A2">Black Ironwood</string>
+    <string name="physics2A3">Oak</string>
+    <string name="physics2A4">Mahogany</string>
+    <string name="physics2Answer">Black Ironwood</string>
+
+    <string name="physics3Question">Thermal expansion causes the Eiffel Tower to grow up to  this
+    much during the summer:</string>
+    <string name="physics3A1">2mm</string>
+    <string name="physics3A2">2cm</string>
+    <string name="physics3A3">15cm</string>
+    <string name="physics3A4">50cm</string>
+    <string name="physics3Answer">15cm</string>
+
+    <string name="math1Question">The value of zero was first used by this mathematician:</string>
+    <string name="math1A1">Aryabhata</string>
+    <string name="math1A2">Gauss</string>
+    <string name="math1A3">Archimedes</string>
+    <string name="math1A4">Euclid</string>
+    <string name="math1Answer">Aryabhata</string>
+
+    <string name="math2Question">Which of these Seven Unsolved Millennium Prize problems has already
+    been solved?</string>
+    <string name="math2A1">P vs NP</string>
+    <string name="math2A2">Riemann Hypothesis</string>
+    <string name="math2A3">Hodge Conjecture</string>
+    <string name="math2A4">Poincare conjecture</string>
+    <string name="math2Answer">Poincare conjecture</string>
+
+    <string name="math3Question">A US dollar can be made in to change this many ways:</string>
+    <string name="math3A1">31</string>
+    <string name="math3A2">97</string>
+    <string name="math3A3">168</string>
+    <string name="math3A4">293</string>
+    <string name="math3Answer">293</string>
+
+    <string name="marvel1Question">Daredevil\'s closest friend:</string>
+    <string name="marvel1A1">"Foggy" Nelson</string>
+    <string name="marvel1A2">Jason Todd</string>
+    <string name="marvel1A3">Frank Miller</string>
+    <string name="marvel1A4">Stephanie Brown</string>
+    <string name="marvel1Answer">"Foggy" Nelson</string>
+
+    <string name="marvel2Question">Dr. Doom went to the same college as this superhero: </string>
+    <string name="marvel2A1">Lois Lane</string>
+    <string name="marvel2A2">Reed Richards</string>
+    <string name="marvel2A3">Thor</string>
+    <string name="marvel2A4">Matt Murdock</string>
+    <string name="marvel2Answer">Reed Richards</string>
+
+    <string name="marvel3Question">Nick Fury\'s brother became this villain: </string>
+    <string name="marvel3A1">The Mandarin</string>
+    <string name="marvel3A2">Venom</string>
+    <string name="marvel3A3">Dr. Octopus</string>
+    <string name="marvel3A4">Scorpio</string>
+    <string name="marvel3Answer">Scorpio</string>
+
+    <string-array name="physics1" >
+        <item>@string/physics1Question</item>
+        <item>@string/physics1A1</item>
+        <item>@string/physics1A2</item>
+        <item>@string/physics1A3</item>
+        <item>@string/physics1A4</item>
+        <item>@string/physics1Answer</item>
+    </string-array>
+
+    <string-array name="physics2" >
+        <item>@string/physics2Question</item>
+        <item>@string/physics2A1</item>
+        <item>@string/physics2A2</item>
+        <item>@string/physics2A3</item>
+        <item>@string/physics2A4</item>
+        <item>@string/physics2Answer</item>
+    </string-array>
+
+    <string-array name="physics3" >
+        <item>@string/physics3Question</item>
+        <item>@string/physics3A1</item>
+        <item>@string/physics3A2</item>
+        <item>@string/physics3A3</item>
+        <item>@string/physics3A4</item>
+        <item>@string/physics3Answer</item>
+    </string-array>
+
+    <string-array name="math1" >
+        <item>@string/math1Question</item>
+        <item>@string/math1A1</item>
+        <item>@string/math1A2</item>
+        <item>@string/math1A3</item>
+        <item>@string/math1A4</item>
+        <item>@string/math1Answer</item>
+    </string-array>
+
+    <string-array name="math2" >
+        <item>@string/math2Question</item>
+        <item>@string/math2A1</item>
+        <item>@string/math2A2</item>
+        <item>@string/math2A3</item>
+        <item>@string/math2A4</item>
+        <item>@string/math2Answer</item>
+    </string-array>
+
+    <string-array name="math3" >
+        <item>@string/math3Question</item>
+        <item>@string/math3A1</item>
+        <item>@string/math3A2</item>
+        <item>@string/math3A3</item>
+        <item>@string/math3A4</item>
+        <item>@string/math3Answer</item>
+    </string-array>
+
+    <string-array name="marvel1" >
+        <item>@string/marvel1Question</item>
+        <item>@string/marvel1A1</item>
+        <item>@string/marvel1A2</item>
+        <item>@string/marvel1A3</item>
+        <item>@string/marvel1A4</item>
+        <item>@string/marvel1Answer</item>
+    </string-array>
+
+    <string-array name="marvel2" >
+        <item>@string/marvel2Question</item>
+        <item>@string/marvel2A1</item>
+        <item>@string/marvel2A2</item>
+        <item>@string/marvel2A3</item>
+        <item>@string/marvel2A4</item>
+        <item>@string/marvel2Answer</item>
+    </string-array>
+
+    <string-array name="marvel3" >
+        <item>@string/marvel3Question</item>
+        <item>@string/marvel3A1</item>
+        <item>@string/marvel3A2</item>
+        <item>@string/marvel3A3</item>
+        <item>@string/marvel3A4</item>
+        <item>@string/marvel3Answer</item>
+    </string-array>
+
+    <array name="physicsQuestions">
+        <item>@array/physics1</item>
+        <item>@array/physics2</item>
+        <item>@array/physics3</item>
+    </array>
+
+    <array name="mathQuestions">
+        <item>@array/math1</item>
+        <item>@array/math2</item>
+        <item>@array/math3</item>
+    </array>
+
+    <array name="marvelQuestions">
+        <item>@array/marvel1</item>
+        <item>@array/marvel3</item>
+        <item>@array/marvel2</item>
+    </array>
+    <string name="title_activity_answer">AnswerActivity</string>
+
+
+
 </resources>

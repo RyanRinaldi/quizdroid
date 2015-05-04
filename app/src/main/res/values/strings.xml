@@ -19,14 +19,14 @@
     <string name="physics1A2">Oil</string>
     <string name="physics1A3">Teflon</string>
     <string name="physics1A4">Silicon</string>
-    <string name="physics1Answer">Teflon</string>
+    <string name="physics1Answer">3</string>
 
     <string name="physics2Question">This is the world\'s densest wood</string>
     <string name="physics2A1">Applewood</string>
     <string name="physics2A2">Black Ironwood</string>
     <string name="physics2A3">Oak</string>
     <string name="physics2A4">Mahogany</string>
-    <string name="physics2Answer">Black Ironwood</string>
+    <string name="physics2Answer">2</string>
 
     <string name="physics3Question">Thermal expansion causes the Eiffel Tower to grow up to  this
     much during the summer:</string>
@@ -34,14 +34,14 @@
     <string name="physics3A2">2cm</string>
     <string name="physics3A3">15cm</string>
     <string name="physics3A4">50cm</string>
-    <string name="physics3Answer">15cm</string>
+    <string name="physics3Answer">3</string>
 
     <string name="math1Question">The value of zero was first used by this mathematician:</string>
     <string name="math1A1">Aryabhata</string>
     <string name="math1A2">Gauss</string>
     <string name="math1A3">Archimedes</string>
     <string name="math1A4">Euclid</string>
-    <string name="math1Answer">Aryabhata</string>
+    <string name="math1Answer">1</string>
 
     <string name="math2Question">Which of these Seven Unsolved Millennium Prize problems has already
     been solved?</string>
@@ -49,35 +49,35 @@
     <string name="math2A2">Riemann Hypothesis</string>
     <string name="math2A3">Hodge Conjecture</string>
     <string name="math2A4">Poincare conjecture</string>
-    <string name="math2Answer">Poincare conjecture</string>
+    <string name="math2Answer">4</string>
 
     <string name="math3Question">A US dollar can be made in to change this many ways:</string>
     <string name="math3A1">31</string>
     <string name="math3A2">97</string>
     <string name="math3A3">168</string>
     <string name="math3A4">293</string>
-    <string name="math3Answer">293</string>
+    <string name="math3Answer">4</string>
 
     <string name="marvel1Question">Daredevil\'s closest friend:</string>
     <string name="marvel1A1">"Foggy" Nelson</string>
     <string name="marvel1A2">Jason Todd</string>
     <string name="marvel1A3">Frank Miller</string>
     <string name="marvel1A4">Stephanie Brown</string>
-    <string name="marvel1Answer">"Foggy" Nelson</string>
+    <string name="marvel1Answer">1</string>
 
     <string name="marvel2Question">Dr. Doom went to the same college as this superhero: </string>
     <string name="marvel2A1">Lois Lane</string>
     <string name="marvel2A2">Reed Richards</string>
     <string name="marvel2A3">Thor</string>
     <string name="marvel2A4">Matt Murdock</string>
-    <string name="marvel2Answer">Reed Richards</string>
+    <string name="marvel2Answer">2</string>
 
     <string name="marvel3Question">Nick Fury\'s brother became this villain: </string>
     <string name="marvel3A1">The Mandarin</string>
     <string name="marvel3A2">Venom</string>
     <string name="marvel3A3">Dr. Octopus</string>
     <string name="marvel3A4">Scorpio</string>
-    <string name="marvel3Answer">Scorpio</string>
+    <string name="marvel3Answer">4</string>
 
     <string-array name="physics1" >
         <item>@string/physics1Question</item>

@@ -25,7 +25,8 @@ public class MainActivity extends ActionBarActivity {
 
         categoryList = (ListView) findViewById(R.id.lstCategories);
 
-        ArrayAdapter<String> items = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, categories);
+        ArrayAdapter<String> items = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
+                categories);
         categoryList.setAdapter(items);
 
         categoryList.setOnItemClickListener(new ListView.OnItemClickListener() {

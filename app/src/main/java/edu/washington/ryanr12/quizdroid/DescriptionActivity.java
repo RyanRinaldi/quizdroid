@@ -18,6 +18,8 @@ import java.util.List;
 public class DescriptionActivity extends ActionBarActivity {
 
     private String category;
+    private String simpleCategory = ""; // serves as a category code and identifier for retrieval
+                                        // from resource file
     private int numQuestions;
 
 
@@ -50,21 +52,25 @@ public class DescriptionActivity extends ActionBarActivity {
                 description = getResources().getString(R.string.physicsDescription);
                 numQuestions = 3;
                 questionCount = numQuestions + " questions";
+                simpleCategory = "physics";
                 break;
             case "math" :
                 description = getResources().getString(R.string.mathDescription);
                 numQuestions = 3;
                 questionCount = numQuestions + " questions";
+                simpleCategory = "math";
                 break;
             case "marvel super heroes" :
                 description = getResources().getString(R.string.marvelDescription);
                 numQuestions = 3;
                 questionCount = numQuestions + " questions";
+                simpleCategory = "marvel";
                 break;
             default :
                 description = "unrecognized category";
                 numQuestions = 3;
                 questionCount = numQuestions + " questions";
+                simpleCategory = "unknown";
                 break;
         }
 
@@ -77,7 +83,7 @@ public class DescriptionActivity extends ActionBarActivity {
         btnNext.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent next = new Intent(DescriptionActivity.this, QuestionActivity.class);
-                next.putExtra("category", category);
+                next.putExtra("category", simpleCategory);
                 next.putExtra("questionNumber", 1);
                 next.putExtra("numCorrect", 0);
                 next.putExtra("numQuestions", numQuestions);

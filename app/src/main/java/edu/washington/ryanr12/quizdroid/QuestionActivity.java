@@ -1,5 +1,6 @@
 package edu.washington.ryanr12.quizdroid;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.support.v7.app.ActionBarActivity;
@@ -12,6 +13,9 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class QuestionActivity extends ActionBarActivity {
@@ -92,6 +96,14 @@ public class QuestionActivity extends ActionBarActivity {
         RadioButton answer3 = (RadioButton) findViewById(R.id.answer3);
         RadioButton answer4 = (RadioButton) findViewById(R.id.answer4);
 
+
+        // int identifier = getStringIdentifier(this, category.toLowerCase() + questionNumber);
+        // int identifier = getStringIdentifier(QuestionActivity.this, "physics1");
+        int identifier = identifier = this.getResources().getIdentifier(category.toLowerCase() +
+                questionNumber, "array", this.getPackageName());
+        String[] questionInfoArray =  getResources().getStringArray(identifier);
+
+        /*
         TypedArray ta;
         switch (category.toLowerCase()) {
             case "physics" :
@@ -110,6 +122,7 @@ public class QuestionActivity extends ActionBarActivity {
             questions[i] = getResources().getStringArray(id);
         }
 
+
         description.setText(questions[question][0]);
         answer1.setText(questions[question][1]);
         answer2.setText(questions[question][2]);
@@ -117,13 +130,27 @@ public class QuestionActivity extends ActionBarActivity {
         answer4.setText(questions[question][4]);
 
         this.correct = questions[question][5];
+        */
+
+        description.setText(questionInfoArray[0]);
+        answer1.setText(questionInfoArray[1]);
+        answer2.setText(questionInfoArray[2]);
+        answer3.setText(questionInfoArray[3]);
+        answer4.setText(questionInfoArray[4]);
+        // this.correct = questionInfoArray[5];
+        int answerNumber = Integer.parseInt(questionInfoArray[5]);
+        this.correct = questionInfoArray[answerNumber];
 
 
-        this.questionInfo = questions[question];
+        this.questionInfo = questionInfoArray;
 
 
 
 
+    }
+
+    public static int getStringIdentifier(Context context, String name) {
+        return context.getResources().getIdentifier(name, "string", context.getPackageName());
     }
 
 

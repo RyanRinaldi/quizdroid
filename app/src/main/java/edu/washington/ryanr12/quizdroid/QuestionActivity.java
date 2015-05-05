@@ -99,7 +99,7 @@ public class QuestionActivity extends ActionBarActivity {
 
         // int identifier = getStringIdentifier(this, category.toLowerCase() + questionNumber);
         // int identifier = getStringIdentifier(QuestionActivity.this, "physics1");
-        int identifier = identifier = this.getResources().getIdentifier(category.toLowerCase() +
+        int identifier = this.getResources().getIdentifier(category.toLowerCase() +
                 questionNumber, "array", this.getPackageName());
         String[] questionInfoArray =  getResources().getStringArray(identifier);
 

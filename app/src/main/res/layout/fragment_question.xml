@@ -6,16 +6,15 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Medium Text"
         android:id="@+id/questionText"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp" />
 
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
-        android:layout_centerHorizontal="true"
+        android:layout_marginTop="120dp"
+        android:layout_gravity="center_horizontal"
         android:id="@+id/answers">
 
         <RadioButton
@@ -38,12 +37,11 @@
     </RadioGroup>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Submit"
         android:id="@+id/btnSubmit"
         android:visibility="invisible"
-        android:gravity="bottom"
-        android:layout_centerHorizontal="true"
+        android:layout_gravity="bottom"
         android:layout_marginBottom="30dp" />
 </FrameLayout>

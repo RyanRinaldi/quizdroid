@@ -7,15 +7,24 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 
 public class QuestionFragment extends Fragment {
 
     private Activity hostActivity;
+    private View v;
     private String[] questionInfo;
     private int questionNumber;
+    private String simpleCategoryName;
+    private String guessedAnswer;
+    private String correctAnswer;
+    private Button btnSubmit;
+    private int guessedIndex;
+    private int answerIndex;
 
     public QuestionFragment() {
         // Required empty public constructor
@@ -25,8 +34,9 @@ public class QuestionFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            questionInfo = getArguments().getStringArray("questionInfo");
+            // questionInfo = getArguments().getStringArray("questionInfo");
             questionNumber = getArguments().getInt("questionNumber");
+            simpleCategoryName = getArguments().getString("simpleCategoryName");
         }
     }
 
@@ -34,7 +44,13 @@ public class QuestionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_question, container, false);
+
+        int quizInfoIdentifier = getResources().getIdentifier(simpleCategoryName + questionNumber,
+                "array", hostActivity.getPackageName());
+        questionInfo = getResources().getStringArray(quizInfoIdentifier);
+
+
+        v = inflater.inflate(R.layout.fragment_question, container, false);
 
         TextView description = (TextView) v.findViewById(R.id.questionText);
         RadioButton answer1 = (RadioButton) v.findViewById(R.id.answer1);
@@ -47,7 +63,44 @@ public class QuestionFragment extends Fragment {
         answer2.setText(questionInfo[2]);
         answer3.setText(questionInfo[3]);
         answer4.setText(questionInfo[4]);
-        int answerNumber = Integer.parseInt(questionInfo[5]);
+        answerIndex = Integer.parseInt(questionInfo[5]);
+        correctAnswer = questionInfo[answerIndex];
+        btnSubmit = (Button) v.findViewById(R.id.btnSubmit);
+
+        RadioGroup group = (RadioGroup) v.findViewById(R.id.answers);
+        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup rg, int selectedId) {
+                guessedIndex = 0;
+                Button btnSubmit = (Button) v.findViewById(R.id.btnSubmit);
+                btnSubmit.setVisibility(View.VISIBLE);
+
+                switch (selectedId) {
+                    case R.id.answer1:
+                        guessedIndex = 1;
+                        break;
+                    case R.id.answer2:
+                        guessedIndex = 2;
+                        break;
+                    case R.id.answer3:
+                        guessedIndex = 3;
+                        break;
+                    default:
+                        guessedIndex = 4;
+                        break;
+                }
+
+                guessedAnswer = questionInfo[guessedIndex];
+
+            }
+        });
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(hostActivity instanceof QuizActivity)
+                    ((QuizActivity) hostActivity).viewAnswer(guessedAnswer, correctAnswer,
+                            guessedIndex == answerIndex);
+            }
+        });
 
 
         return v;

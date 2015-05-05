@@ -1,39 +1,50 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.washington.ryanr12.quizdroid.DescriptionFragment">
+    tools:context="edu.washington.ryanr12.quizdroid.AnswerFragment">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/categoryTitle"
-        android:layout_marginTop="40dp" />
+        android:text=""
+        android:id="@+id/congratsText"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/categoryDescription"
+        android:text=""
+        android:id="@+id/guessText"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="120dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/questionCount"
+        android:text=""
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/answerText"
+        android:layout_marginTop="180dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text=""
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/numCorrectText"
         android:layout_marginTop="240dp" />
 
     <Button
-        android:layout_gravity="bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Begin"
-        android:id="@+id/btnBegin"
+        android:text="Next"
+        android:id="@+id/btnNext"
+        android:layout_gravity="bottom"
         android:layout_marginBottom="40dp" />
 
 </FrameLayout>

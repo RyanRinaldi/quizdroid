@@ -31,23 +31,7 @@ public class DescriptionFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             category = getArguments().getString("categoryName");
-            switch (category.toLowerCase()) {
-                case "physics" :
-                    simpleCategoryName = "physics";
-                    // numQuestions = getResources().getStringArray(R.array.physicsQuestions).length;
-                    break;
-                case "math" :
-                    simpleCategoryName = "math";
-                    // numQuestions = getResources().getStringArray(R.array.mathQuestions).length;
-                    break;
-                case "marvel super heroes" :
-                    simpleCategoryName = "marvel";
-                    // numQuestions = getResources().getStringArray(R.array.marvelQuestions).length;
-                    break;
-                default :
-                    simpleCategoryName = null;
-                    break;
-            }
+
         }
 
     }
@@ -58,7 +42,31 @@ public class DescriptionFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_description, container, false);
 
+
+        switch (category.toLowerCase()) {
+            case "physics" :
+                simpleCategoryName = "physics";
+
+                // numQuestions = getResources().getStringArray(R.array.physicsQuestions).length;
+                break;
+            case "math" :
+                simpleCategoryName = "math";
+                // numQuestions = getResources().getStringArray(R.array.mathQuestions).length;
+                break;
+            case "marvel super heroes" :
+                simpleCategoryName = "marvel";
+                // numQuestions = getResources().getStringArray(R.array.marvelQuestions).length;
+                break;
+            default :
+                simpleCategoryName = null;
+                break;
+        }
+        if(hostActivity instanceof QuizActivity) {
+            ((QuizActivity) hostActivity).setSimpleCategoryName(simpleCategoryName);
+        }
+
         if(simpleCategoryName != null) {
+
             int descriptionIdentifier = getResources().getIdentifier(simpleCategoryName + "Description",
                     "string", hostActivity.getPackageName());
             String description = getResources().getString(descriptionIdentifier);
@@ -85,7 +93,7 @@ public class DescriptionFragment extends Fragment {
                             "array", hostActivity.getPackageName());
                     String[] questionInfo = getResources().getStringArray(quizInfoIdentifier);
                     if(hostActivity instanceof QuizActivity)
-                        ((QuizActivity) hostActivity).viewQuestion(questionInfo, 1);
+                        ((QuizActivity) hostActivity).viewQuestion(1);
                 }
             });
 

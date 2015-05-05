@@ -12,14 +12,18 @@ import android.view.MenuItem;
 public class QuizActivity extends ActionBarActivity {
 
     private String category;
+    private String simpleCategoryName;
     private int questionNumber;
     private int numQuestions;
+    private int correctSoFar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
         questionNumber = 1;
+        numQuestions = 0;
+        correctSoFar = 0;
 
         Intent launchingIntent = getIntent();
         if(launchingIntent != null) {
@@ -38,22 +42,46 @@ public class QuizActivity extends ActionBarActivity {
     }
 
 
-    public void viewQuestion(String[] questionInfo, int currentQuestion) {
+
+    public void viewQuestion(int currentQuestion) {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
 
+        this.questionNumber = currentQuestion;
         Bundle questionInfoBundle = new Bundle();
-        questionInfoBundle.putStringArray("questionInfo", questionInfo);
+        // questionInfoBundle.putStringArray("questionInfo", questionInfo);
         questionInfoBundle.putInt("currentQuestion", currentQuestion);
+        questionInfoBundle.putString("simpleCategoryName", simpleCategoryName);
+        questionInfoBundle.putInt("questionNumber", questionNumber);
         QuestionFragment questionFragment = new QuestionFragment();
         questionFragment.setArguments(questionInfoBundle);
-        ft.add(R.id.fragmentContainer, questionFragment);
+        ft.replace(R.id.fragmentContainer, questionFragment);
         ft.commit();
     }
 
-    public void incrementQuestionNumber() {
-        questionNumber++;
+    public void viewAnswer(String guessedAnswer, String correctAnswer, boolean correct) {
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Bundle answerInfoBundle = new Bundle();
+        answerInfoBundle.putString("guessedAnswer", guessedAnswer);
+        answerInfoBundle.putString("correctAnswer", correctAnswer);
+        answerInfoBundle.putBoolean("correct", correct);
+        answerInfoBundle.putInt("questionNumber", questionNumber);
+        answerInfoBundle.putInt("numQuestions", numQuestions);
+        answerInfoBundle.putInt("correctSoFar", correctSoFar);
+        AnswerFragment answerFragment = new AnswerFragment();
+        answerFragment.setArguments(answerInfoBundle);
+        ft.replace(R.id.fragmentContainer, answerFragment);
+        ft.commit();
     }
+
+    public void setSimpleCategoryName(String value) {
+        this.simpleCategoryName = value;
+    }
+
+
+    public void incrementCorrectSoFar() { correctSoFar++; }
 
     public void setNumQuestions(int value) {
         this.numQuestions = value;

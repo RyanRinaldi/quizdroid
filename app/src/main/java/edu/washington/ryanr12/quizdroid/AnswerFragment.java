@@ -15,11 +15,12 @@ import android.widget.TextView;
 public class AnswerFragment extends Fragment {
 
     private String guessedAnswer;
-    private String correctAnswer;
+    // private String correctAnswer;
     private boolean correct;
-    private int questionNumber;
-    private int numQuestions;
-    private int correctSoFar;
+    private QuizApp quizApp;
+    // private int questionNumber;
+    // private int numQuestions;
+    // private int correctSoFar;
     private Activity hostActivity;
 
     public AnswerFragment() {
@@ -29,13 +30,14 @@ public class AnswerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        quizApp = (QuizApp) hostActivity.getApplication();
         if (getArguments() != null) {
             guessedAnswer = getArguments().getString("guessedAnswer");
-            correctAnswer = getArguments().getString("correctAnswer");
+            // correctAnswer = getArguments().getString("correctAnswer");
             correct = getArguments().getBoolean("correct");
-            questionNumber = getArguments().getInt("questionNumber");
-            numQuestions = getArguments().getInt("numQuestions");
-            correctSoFar = getArguments().getInt("correctSoFar");
+            // questionNumber = getArguments().getInt("questionNumber");
+            // numQuestions = getArguments().getInt("numQuestions");
+            // correctSoFar = getArguments().getInt("correctSoFar");
         }
     }
 
@@ -49,24 +51,26 @@ public class AnswerFragment extends Fragment {
         TextView answerText = (TextView) v.findViewById(R.id.answerText);
         TextView numCorrectText = (TextView) v.findViewById(R.id.numCorrectText);
 
+        int questionNumber = quizApp.getTopic().getQuestionNumber();
+        Quiz currentQuestion = quizApp.getTopic().getQuestion(questionNumber);
+
         if(correct) {
             congratsText.setText("Correct!");
-            correctSoFar++;
-            if(hostActivity instanceof QuizActivity)
-                ((QuizActivity) hostActivity).incrementCorrectSoFar();
+            quizApp.getTopic().incrementCorrectSoFar();
         } else {
             congratsText.setText("Wrong!");
         }
         guessText.setText("You guessed: " + guessedAnswer);
-        answerText.setText("Correct answer: " + correctAnswer);
-        numCorrectText.setText("You have " + correctSoFar + " out of " + questionNumber +
-                " correct");
+        answerText.setText("Correct answer: " + currentQuestion.getAnswerText());
+        numCorrectText.setText("You have " + quizApp.getTopic().getCorrectSoFar() + " out of " +
+                questionNumber + " correct");
 
         Button btnNext = (Button) v.findViewById(R.id.btnNext);
-        if(questionNumber >= numQuestions) {
+        if(questionNumber >= quizApp.getTopic().getNumQuestions()) {
             btnNext.setText("Finish");
             btnNext.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View view) {
+                    quizApp.getTopic().reset();
                     Intent next = new Intent(hostActivity, MainActivity.class);
                     startActivity(next);
                 }
@@ -74,8 +78,9 @@ public class AnswerFragment extends Fragment {
         } else {
             btnNext.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+                    quizApp.getTopic().incrementQuestionNumber();
                     if(hostActivity instanceof QuizActivity)
-                        ((QuizActivity) hostActivity).viewQuestion(questionNumber + 1);
+                        ((QuizActivity) hostActivity).viewQuestion();
                 }
             });
         }

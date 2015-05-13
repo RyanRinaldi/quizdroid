@@ -12,9 +12,10 @@ import android.widget.TextView;
 
 
 public class DescriptionFragment extends Fragment {
-    private String category;
-    private String simpleCategoryName;
+    // private String category;
+    // private String simpleCategoryName;
     private Activity hostActivity;
+    private QuizApp quizApp;
 
     // TODO: Rename and change types and number of parameters
 
@@ -25,14 +26,17 @@ public class DescriptionFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        category = "";
+        String category = "";
         // description = "";
+        quizApp = (QuizApp) hostActivity.getApplication();
 
         super.onCreate(savedInstanceState);
+        /*
         if (getArguments() != null) {
             category = getArguments().getString("categoryName");
-
+            quizApp.setTopic(category);
         }
+        */
 
     }
 
@@ -42,7 +46,7 @@ public class DescriptionFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_description, container, false);
 
-
+        /*
         switch (category.toLowerCase()) {
             case "physics" :
                 simpleCategoryName = "physics";
@@ -61,12 +65,20 @@ public class DescriptionFragment extends Fragment {
                 simpleCategoryName = null;
                 break;
         }
+        */
+        String simpleCategoryName = quizApp.getTopic().getSimpleName();
+        String category = quizApp.getTopic().getTitle();
+        String description = quizApp.getTopic().getDescription();
+        int numQuestions = quizApp.getTopic().getNumQuestions();
+        /*
         if(hostActivity instanceof QuizActivity) {
             ((QuizActivity) hostActivity).setSimpleCategoryName(simpleCategoryName);
         }
+        */
 
         if(simpleCategoryName != null) {
 
+            /*
             int descriptionIdentifier = getResources().getIdentifier(simpleCategoryName + "Description",
                     "string", hostActivity.getPackageName());
             String description = getResources().getString(descriptionIdentifier);
@@ -74,7 +86,7 @@ public class DescriptionFragment extends Fragment {
             int numQuestionsIdentifier = getResources().getIdentifier(simpleCategoryName + "Questions",
                     "array", hostActivity.getPackageName());
             int numQuestions = getResources().getStringArray(numQuestionsIdentifier).length;
-
+            */
 
             TextView titleTV = (TextView) v.findViewById(R.id.categoryTitle);
             TextView descriptionTV = (TextView) v.findViewById(R.id.categoryDescription);
@@ -83,17 +95,21 @@ public class DescriptionFragment extends Fragment {
             titleTV.setText(category);
             descriptionTV.setText(description);
             questionCountTV.setText(numQuestions + " questions");
-            if(hostActivity instanceof QuizActivity)
-                ((QuizActivity) hostActivity).setNumQuestions(numQuestions);
 
             Button btnBegin = (Button) v.findViewById(R.id.btnBegin);
+
+
             btnBegin.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
+
+                    /*
                     int quizInfoIdentifier = getResources().getIdentifier(simpleCategoryName + "1",
                             "array", hostActivity.getPackageName());
                     String[] questionInfo = getResources().getStringArray(quizInfoIdentifier);
+                    */
+
                     if(hostActivity instanceof QuizActivity)
-                        ((QuizActivity) hostActivity).viewQuestion(1);
+                        ((QuizActivity) hostActivity).viewQuestion();
                 }
             });
 

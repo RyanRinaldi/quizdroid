@@ -15,7 +15,7 @@ import android.content.Intent;
 public class MainActivity extends ActionBarActivity {
 
     public String[] categories = {"Math", "Physics", "Marvel Super Heroes"};
-
+    QuizApp quizApp;
     private ListView categoryList;
 
     @Override
@@ -28,14 +28,14 @@ public class MainActivity extends ActionBarActivity {
         ArrayAdapter<String> items = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
                 categories);
         categoryList.setAdapter(items);
+        quizApp = (QuizApp) getApplication();
+        // get repository from quizApp
 
         categoryList.setOnItemClickListener(new ListView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent next = new Intent(MainActivity.this, QuizActivity.class);
-                // Log.i("MainActivity", "Firing intent " + next);
-                // next.putExtra("categoryNumber", position);
-                // next.putExtra("categoryArray", categories);
-                next.putExtra("categoryName", categories[position]);
+                // next.putExtra("categoryName", categories[position]);
+                quizApp.setTopic(categories[position]);
                 startActivity(next);
             }
         });

@@ -17,14 +17,16 @@ public class QuestionFragment extends Fragment {
 
     private Activity hostActivity;
     private View v;
-    private String[] questionInfo;
-    private int questionNumber;
-    private String simpleCategoryName;
+    private Quiz currentQuestion;
+    // private String[] questionInfo;
+    // private int questionNumber;
+    // private String simpleCategoryName;
     private String guessedAnswer;
-    private String correctAnswer;
+    // private String correctAnswer;
     private Button btnSubmit;
     private int guessedIndex;
-    private int answerIndex;
+    // private int answerIndex;
+    private QuizApp quizApp;
 
     public QuestionFragment() {
         // Required empty public constructor
@@ -33,10 +35,11 @@ public class QuestionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        quizApp = (QuizApp) hostActivity.getApplication();
         if (getArguments() != null) {
             // questionInfo = getArguments().getStringArray("questionInfo");
-            questionNumber = getArguments().getInt("questionNumber");
-            simpleCategoryName = getArguments().getString("simpleCategoryName");
+            // questionNumber = getArguments().getInt("questionNumber");
+            // simpleCategoryName = getArguments().getString("simpleCategoryName");
         }
     }
 
@@ -45,12 +48,16 @@ public class QuestionFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
+        /*
         int quizInfoIdentifier = getResources().getIdentifier(simpleCategoryName + questionNumber,
                 "array", hostActivity.getPackageName());
         questionInfo = getResources().getStringArray(quizInfoIdentifier);
-
-
+        */
         v = inflater.inflate(R.layout.fragment_question, container, false);
+
+        // Pulls information on the current question
+        int questionNumber = quizApp.getTopic().getQuestionNumber();
+        currentQuestion = quizApp.getTopic().getQuestion(questionNumber);
 
         TextView description = (TextView) v.findViewById(R.id.questionText);
         RadioButton answer1 = (RadioButton) v.findViewById(R.id.answer1);
@@ -58,13 +65,11 @@ public class QuestionFragment extends Fragment {
         RadioButton answer3 = (RadioButton) v.findViewById(R.id.answer3);
         RadioButton answer4 = (RadioButton) v.findViewById(R.id.answer4);
 
-        description.setText(questionInfo[0]);
-        answer1.setText(questionInfo[1]);
-        answer2.setText(questionInfo[2]);
-        answer3.setText(questionInfo[3]);
-        answer4.setText(questionInfo[4]);
-        answerIndex = Integer.parseInt(questionInfo[5]);
-        correctAnswer = questionInfo[answerIndex];
+        description.setText(currentQuestion.getQuestionText());
+        answer1.setText(currentQuestion.getAnswer1());
+        answer2.setText(currentQuestion.getAnswer2());
+        answer3.setText(currentQuestion.getAnswer3());
+        answer4.setText(currentQuestion.getAnswer4());
         btnSubmit = (Button) v.findViewById(R.id.btnSubmit);
 
         RadioGroup group = (RadioGroup) v.findViewById(R.id.answers);
@@ -89,7 +94,7 @@ public class QuestionFragment extends Fragment {
                         break;
                 }
 
-                guessedAnswer = questionInfo[guessedIndex];
+                guessedAnswer = currentQuestion.getGuessText(guessedIndex);
 
             }
         });
@@ -97,8 +102,8 @@ public class QuestionFragment extends Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(hostActivity instanceof QuizActivity)
-                    ((QuizActivity) hostActivity).viewAnswer(guessedAnswer, correctAnswer,
-                            guessedIndex == answerIndex);
+                    ((QuizActivity) hostActivity).viewAnswer(guessedAnswer,
+                            guessedIndex == currentQuestion.getAnswer());
             }
         });
 

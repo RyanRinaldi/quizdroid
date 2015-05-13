@@ -12,6 +12,10 @@ public class Topic {
     private int correctSoFar;
 
 
+    public Topic() {
+        this(null, null);
+    }
+
     public Topic (String title, String description) {
         this(title, description, null);
     }
@@ -50,6 +54,8 @@ public class Topic {
     public int getNumQuestions() { return this.questions.size(); }
 
     public String getTitle() { return this.title; }
+
+    public void setTitle(String value) { this.title = value; }
 
     // Simple names used to get information out of strings.xml
     public String getSimpleName() {

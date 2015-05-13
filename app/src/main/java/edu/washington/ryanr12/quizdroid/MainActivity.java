@@ -14,7 +14,7 @@ import android.content.Intent;
 
 public class MainActivity extends ActionBarActivity {
 
-    public String[] categories = {"Math", "Physics", "Marvel Super Heroes"};
+    public String[] categories;
     QuizApp quizApp;
     private ListView categoryList;
 
@@ -22,13 +22,15 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        quizApp = (QuizApp) getApplication();
+        categories = quizApp.topicNames();
 
         categoryList = (ListView) findViewById(R.id.lstCategories);
 
         ArrayAdapter<String> items = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
                 categories);
         categoryList.setAdapter(items);
-        quizApp = (QuizApp) getApplication();
+
         // get repository from quizApp
 
         categoryList.setOnItemClickListener(new ListView.OnItemClickListener() {

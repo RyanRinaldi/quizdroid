@@ -13,4 +13,15 @@
         android:id="@+id/lstCategories"
         android:choiceMode="singleChoice" />
 
+<!--    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Preferences"
+        android:id="@+id/preferencesBtn"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true" />-->
+
+
+
 </RelativeLayout>

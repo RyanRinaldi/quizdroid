@@ -46,10 +46,7 @@ public class QuizActivity extends ActionBarActivity {
         FragmentTransaction ft = fm.beginTransaction();
 
         Bundle questionInfoBundle = new Bundle();
-        // questionInfoBundle.putStringArray("questionInfo", questionInfo);
-        // questionInfoBundle.putInt("currentQuestion", currentQuestion);
-        // questionInfoBundle.putString("simpleCategoryName", simpleCategoryName);
-        // questionInfoBundle.putInt("questionNumber", questionNumber);
+
         QuestionFragment questionFragment = new QuestionFragment();
         questionFragment.setArguments(questionInfoBundle);
         ft.replace(R.id.fragmentContainer, questionFragment);

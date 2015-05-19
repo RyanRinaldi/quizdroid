@@ -27,16 +27,10 @@ public class DescriptionFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         String category = "";
-        // description = "";
         quizApp = (QuizApp) hostActivity.getApplication();
 
         super.onCreate(savedInstanceState);
-        /*
-        if (getArguments() != null) {
-            category = getArguments().getString("categoryName");
-            quizApp.setTopic(category);
-        }
-        */
+
 
     }
 
@@ -45,48 +39,14 @@ public class DescriptionFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_description, container, false);
-
-        /*
-        switch (category.toLowerCase()) {
-            case "physics" :
-                simpleCategoryName = "physics";
-
-                // numQuestions = getResources().getStringArray(R.array.physicsQuestions).length;
-                break;
-            case "math" :
-                simpleCategoryName = "math";
-                // numQuestions = getResources().getStringArray(R.array.mathQuestions).length;
-                break;
-            case "marvel super heroes" :
-                simpleCategoryName = "marvel";
-                // numQuestions = getResources().getStringArray(R.array.marvelQuestions).length;
-                break;
-            default :
-                simpleCategoryName = null;
-                break;
-        }
-        */
         String simpleCategoryName = quizApp.getTopic().getSimpleName();
         String category = quizApp.getTopic().getTitle();
         String description = quizApp.getTopic().getDescription();
         int numQuestions = quizApp.getTopic().getNumQuestions();
-        /*
-        if(hostActivity instanceof QuizActivity) {
-            ((QuizActivity) hostActivity).setSimpleCategoryName(simpleCategoryName);
-        }
-        */
+
 
         if(simpleCategoryName != null) {
 
-            /*
-            int descriptionIdentifier = getResources().getIdentifier(simpleCategoryName + "Description",
-                    "string", hostActivity.getPackageName());
-            String description = getResources().getString(descriptionIdentifier);
-
-            int numQuestionsIdentifier = getResources().getIdentifier(simpleCategoryName + "Questions",
-                    "array", hostActivity.getPackageName());
-            int numQuestions = getResources().getStringArray(numQuestionsIdentifier).length;
-            */
 
             TextView titleTV = (TextView) v.findViewById(R.id.categoryTitle);
             TextView descriptionTV = (TextView) v.findViewById(R.id.categoryDescription);
@@ -102,11 +62,6 @@ public class DescriptionFragment extends Fragment {
             btnBegin.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
 
-                    /*
-                    int quizInfoIdentifier = getResources().getIdentifier(simpleCategoryName + "1",
-                            "array", hostActivity.getPackageName());
-                    String[] questionInfo = getResources().getStringArray(quizInfoIdentifier);
-                    */
 
                     if(hostActivity instanceof QuizActivity)
                         ((QuizActivity) hostActivity).viewQuestion();
@@ -115,9 +70,6 @@ public class DescriptionFragment extends Fragment {
 
         }
 
-
-        //TextView tv = (TextView) v.findViewById(R.id.testTV);
-        //tv.setText("Category is: " + category);
         return v;
     }
 

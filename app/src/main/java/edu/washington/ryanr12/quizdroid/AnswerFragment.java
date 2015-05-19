@@ -15,12 +15,8 @@ import android.widget.TextView;
 public class AnswerFragment extends Fragment {
 
     private String guessedAnswer;
-    // private String correctAnswer;
     private boolean correct;
     private QuizApp quizApp;
-    // private int questionNumber;
-    // private int numQuestions;
-    // private int correctSoFar;
     private Activity hostActivity;
 
     public AnswerFragment() {
@@ -33,11 +29,8 @@ public class AnswerFragment extends Fragment {
         quizApp = (QuizApp) hostActivity.getApplication();
         if (getArguments() != null) {
             guessedAnswer = getArguments().getString("guessedAnswer");
-            // correctAnswer = getArguments().getString("correctAnswer");
             correct = getArguments().getBoolean("correct");
-            // questionNumber = getArguments().getInt("questionNumber");
-            // numQuestions = getArguments().getInt("numQuestions");
-            // correctSoFar = getArguments().getInt("correctSoFar");
+
         }
     }
 

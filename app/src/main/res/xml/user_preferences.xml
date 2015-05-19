@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="Settings" >
+        <EditTextPreference
+            android:title="Question Data Link"
+            android:summary="Set the URL from which question data is retrieved"
+            android:key="questionDataURL"/>
+        <EditTextPreference
+            android:title="Time between update checks"
+            android:summary="Number of minutes to wait before checking for updates"
+            android:key="updateTime"
+            android:inputType="number"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

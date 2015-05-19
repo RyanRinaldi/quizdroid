@@ -1,12 +1,19 @@
 package edu.washington.ryanr12.quizdroid;
 
 import android.app.Application;
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.util.JsonReader;
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -22,6 +29,7 @@ public class QuizApp extends Application implements TopicRepository {
     private static QuizApp instance;
     private String currentTopic;
     private Map<String, Topic> topics;
+    private DownloadManager downloadManager;
 
     public QuizApp() {
         if(instance == null) {
@@ -46,7 +54,7 @@ public class QuizApp extends Application implements TopicRepository {
 
     public void onCreate() {
         super.onCreate();
-        Log.i("QuizApp", "CREATED");
+        // Log.i("QuizApp", "CREATED");
 
         topics = new HashMap<>();
 
@@ -59,35 +67,41 @@ public class QuizApp extends Application implements TopicRepository {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        /*
-        // fetch json question data
-        InputStream input = null;
+
+/*      Uncomment this to support question information from strings.xml, instead of from JSON
+        fetchStringsXmlQuestionData();
+            */
+        DownloadService.manageAlarm(this, true);
+    }
+
+
+   /* public BroadcastReceiver getReceiver() {
+        return this.receiver;
+    }*/
+
+    public DownloadManager getDownloadManager() {
+        return this.downloadManager;
+    }
+
+    public void writeJSONFile(String data) {
         try {
-            input = getAssets().open("questions.json");
-            String fileContents = readFile(input);
-            JSONObject json = new JSONObject(fileContents);
+            Log.i("QuizApp", "Writing JSON file");
 
-
-
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } finally {
-            if(input != null) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    Log.e("QuizApp", "Failed to close JSON InputStream");
-                }
-            }
+            File file = new File(getFilesDir().getAbsolutePath(), "data.json");
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(data.getBytes());
+            fos.close();
         }
+        catch (IOException e) {
+            Log.e("QuizApp", "IOEXception--File write failed: " + e.toString());
+        }
+    }
 
-        */
-/*      Uncomment this to support question information from strings.xml
-        // add hard coded question info
+
+
+
+    // add hard coded question info
+    private void fetchStringsXmlQuestionData() {
         Topic physicsTopic = new Topic("Physics");
         Topic mathTopic = new Topic("Math");
         Topic marvelTopic = new Topic("Marvel Super Heroes");
@@ -98,7 +112,6 @@ public class QuizApp extends Application implements TopicRepository {
         topics.put(physicsTopic.getTitle(), physicsTopic);
         topics.put(mathTopic.getTitle(), mathTopic);
         topics.put(marvelTopic.getTitle(), marvelTopic);
-        */
     }
 
     // gets question data from JSON file
@@ -111,8 +124,8 @@ public class QuizApp extends Application implements TopicRepository {
         }
     }
 
+    // reads the JSON file
     private void readMessagesArray(JsonReader reader) throws IOException {
-        List messages = new ArrayList();
         reader.beginArray();
 
         while(reader.hasNext()) {
@@ -130,8 +143,6 @@ public class QuizApp extends Application implements TopicRepository {
                         break;
                     case "questions":
                         parseQuestions(reader, currentTopic);
-
-
                         break;
                     default:
                         reader.skipValue();
@@ -144,12 +155,11 @@ public class QuizApp extends Application implements TopicRepository {
         reader.endArray();
     }
 
+    // Parses individual JSON questions, adds them to topic
     private void parseQuestions(JsonReader reader, Topic topic) throws IOException {
         reader.beginArray();
         Quiz current;
         while (reader.hasNext()) {
-
-            // current = new Quiz();
             String text = "";
             String[] answers = new String[4];
             int answer = 0;
@@ -185,15 +195,9 @@ public class QuizApp extends Application implements TopicRepository {
         reader.endArray();
     }
 
-    private String readFile(InputStream input) throws IOException {
-        int size = input.available();
-        byte[] buffer = new byte[size];
-        input.read(buffer);
-        input.close();
-        return new String(buffer, "UTF-8");
-    }
 
-    // Helper method for hardcoded question info
+    // Helper method for hardcoded question info. Only used when fetchStringsXmlQuestionInfo is
+    // uncommented
     private void addHardcodedTopicQuestions(Topic topic) {
 
         String category = topic.getSimpleName();

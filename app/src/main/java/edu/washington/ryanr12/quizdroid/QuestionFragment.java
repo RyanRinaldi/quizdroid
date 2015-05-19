@@ -37,9 +37,7 @@ public class QuestionFragment extends Fragment {
         super.onCreate(savedInstanceState);
         quizApp = (QuizApp) hostActivity.getApplication();
         if (getArguments() != null) {
-            // questionInfo = getArguments().getStringArray("questionInfo");
-            // questionNumber = getArguments().getInt("questionNumber");
-            // simpleCategoryName = getArguments().getString("simpleCategoryName");
+
         }
     }
 
@@ -47,12 +45,6 @@ public class QuestionFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-        /*
-        int quizInfoIdentifier = getResources().getIdentifier(simpleCategoryName + questionNumber,
-                "array", hostActivity.getPackageName());
-        questionInfo = getResources().getStringArray(quizInfoIdentifier);
-        */
         v = inflater.inflate(R.layout.fragment_question, container, false);
 
         // Pulls information on the current question

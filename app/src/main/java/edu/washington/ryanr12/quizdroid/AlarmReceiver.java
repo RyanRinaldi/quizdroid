@@ -18,11 +18,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     public void onReceive(Context context, Intent intent) {
         Log.i("AlarmReceiver", "Received alarm broadcast");
-
-        if(context instanceof MainActivity) {
-            ((MainActivity)context).showToast();
-        }
-
         // Start download
         Intent downloadServiceIntent = new Intent(context, DownloadService.class);
         context.startService(downloadServiceIntent);

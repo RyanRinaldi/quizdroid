@@ -35,7 +35,7 @@ public class MainActivity extends ActionBarActivity {
     public String[] categories;
     QuizApp quizApp;
     private ListView categoryList;
-    private Button preferenceBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +90,9 @@ public class MainActivity extends ActionBarActivity {
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
             Log.i("MainActivity BR", "BroadcastReceiver onRecieve");
+            SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(context);
+            String url = p.getString("questionDataURL", "default");
+            Toast.makeText(MainActivity.this, "URL: " + url, Toast.LENGTH_SHORT).show();
             String action = intent.getAction();
             DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
             if(DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
@@ -171,12 +174,14 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
+/*
     public void showToast() {
         Log.i("MainActivity", "Toast should show");
         SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(this);
         String url = p.getString("questionDataURL", "default");
         Toast.makeText(MainActivity.this, "URL: " + url, Toast.LENGTH_SHORT).show();
     }
+*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

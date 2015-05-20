@@ -6,7 +6,9 @@ import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 /**
@@ -58,7 +60,10 @@ public class DownloadService extends IntentService {
 
         if(on) {
 
-            int refreshInterval = 5000;
+            SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(context);
+
+            int refreshInterval = Integer.parseInt(p.getString("updateTime", "1440")) * 60000;
+            // refreshInterval = 5000;
             Log.i("DownloadService", "setting alarm to " + refreshInterval);
             alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),
                     refreshInterval, pendingIntent);

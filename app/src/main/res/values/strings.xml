@@ -2,6 +2,13 @@
     <string name="app_name">Quiz Droid</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="download_failed_dialog">Failure while downloading questions. Would you like to retry or close the app and try again later?</string>
+    <string name="download_failed_retry">Retry download</string>
+    <string name="download_failed_quit">Close QuizDroid</string>
+    <string name="airplaneMode_dialog">Cannot download questions in airplane mode. Do you want to go to settings?</string>
+    <string name="airplaneMode_Okay">Okay</string>
+    <string name="airplaneMode_cancel">Cancel</string>
+
     <string name="action_settings">Settings</string>
     <string name="title_activity_physics">PhysicsActivity</string>
     <string name="title_activity_description">DescriptionActivity</string>
@@ -78,6 +85,7 @@
     <string name="marvel3A3">Dr. Octopus</string>
     <string name="marvel3A4">Scorpio</string>
     <string name="marvel3Answer">4</string>
+
 
     <string-array name="physics1" >
         <item>@string/physics1Question</item>

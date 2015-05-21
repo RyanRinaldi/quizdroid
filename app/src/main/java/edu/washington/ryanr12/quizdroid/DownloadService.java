@@ -32,8 +32,6 @@ public class DownloadService extends IntentService {
     }
 
     protected void onHandleIntent(Intent workIntent) {
-        Log.i("DownloadService", "handling alarm intent");
-
         String url = "http://tednewardsandbox.site44.com/questions.json";
         Log.i("DownloadService", "Download Beginning");
         downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
@@ -43,12 +41,6 @@ public class DownloadService extends IntentService {
 
     public static void manageAlarm(Context context, boolean on) {
         Log.i("DownloadService", "Setting alarm on to: " + on);
-
-/*
-        Intent i = new Intent(context, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, i,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-*/
 
         Intent i = new Intent();
         i.setAction("edu.washington.ryanr12.quizdroid");

@@ -1,13 +1,22 @@
 package edu.washington.ryanr12.quizdroid;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.app.DownloadManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,10 +40,12 @@ import java.io.InputStreamReader;
 public class MainActivity extends ActionBarActivity {
 
     private static final int SETTINGS_RESULT = 1;
-
+    private static final String DOWNLOAD_ID = "QuizDroidDownload";
     public String[] categories;
     QuizApp quizApp;
     private ListView categoryList;
+    private SharedPreferences preferences;
+    private DownloadManager dm;
 
 
     @Override
@@ -42,96 +53,182 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         quizApp = (QuizApp) getApplication();
-        categories = quizApp.topicNames();
 
-        categoryList = (ListView) findViewById(R.id.lstCategories);
-
-        ArrayAdapter<String> items = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
-                categories);
-        categoryList.setAdapter(items);
+        draw();
+        checkForUpdates();
 
         // Register DownloadManager receiver
         IntentFilter intentFilter = new IntentFilter("edu.washington.ryanr12.quizdroid");
         intentFilter.addAction(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
         registerReceiver(receiver, intentFilter);
 
-
-
-/*
-        // Used for testing
-        SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(this);
-        String url = p.getString("questionDataURL", "default");
-        Log.i("MainActivity", "The URL Setting is: " + url);
-        Log.i("MainActivity", "The time Setting is: " + Integer.parseInt(p.getString("updateTime", "1440")));
-*/
-
-        // get repository from quizApp
-
         categoryList.setOnItemClickListener(new ListView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent next = new Intent(MainActivity.this, QuizActivity.class);
-                // next.putExtra("categoryName", categories[position]);
                 quizApp.setTopic(categories[position]);
                 startActivity(next);
             }
         });
 
-/*        preferenceBtn = (Button) findViewById(R.id.preferencesBtn);
-        preferenceBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent next = new Intent(MainActivity.this, UserSettingActivity.class);
-                startActivity(next);
+    }
+
+    // Draws the Main Activity list of topics
+    private void draw() {
+        categories = quizApp.topicNames();
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+
+        categoryList = (ListView) findViewById(R.id.lstCategories);
+
+        ArrayAdapter<String> items = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
+                categories);
+        categoryList.setAdapter(items);
+    }
+
+    public void onPause() {
+        super.onPause();
+        unregisterReceiver(receiver);
+    }
+
+    private void downloadStatus() {
+        DownloadManager.Query query = new DownloadManager.Query();
+        query.setFilterById(preferences.getLong(DOWNLOAD_ID, 0));
+        Cursor c = dm.query(query);
+        if(c.moveToFirst()) {
+            int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
+            Log.i("DownloadStatus", "Status: " + status);
+            switch(status) {
+                case DownloadManager.STATUS_PAUSED:
+                case DownloadManager.STATUS_PENDING:
+                case DownloadManager.STATUS_RUNNING:
+                    break;
+                case DownloadManager.STATUS_SUCCESSFUL:
+                    try {
+                        ParcelFileDescriptor file = dm.openDownloadedFile(preferences.getLong(DOWNLOAD_ID, 0));
+                        FileInputStream fis = new ParcelFileDescriptor.AutoCloseInputStream(file);
+
+                        // Convert file to string
+                        // BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+                        StringBuffer fileContent = new StringBuffer("");
+
+                        int ch;
+                        while( (ch = fis.read()) != -1) {
+                            fileContent.append((char)ch);
+                        }
+
+                        // Write string to data.json (write method in QuizApp)
+                        quizApp.writeJSONFile(fileContent.toString());
+
+                        // Draws the main menu. Updates category list.
+                        draw();
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                case DownloadManager.STATUS_FAILED:
+                    dm.remove(preferences.getLong(DOWNLOAD_ID, 0));
+                    preferences.edit().clear().commit();
+                    fireFailedAlert();
+                    break;
             }
-        });*/
+        }
+    }
+
+    public class DownloadFailedDialogFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage(R.string.download_failed_dialog)
+                    // Button: Retry Download
+                    .setPositiveButton(R.string.download_failed_retry, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // Retry the download
+                            checkForUpdates();
+                        }
+                    })
+                    // Button: Quit QuizDroid
+                    .setNegativeButton(R.string.download_failed_quit, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // quit app, try again
+                            finish();
+                        }
+                    });
+            return builder.create();
+        }
+    }
+
+
+    public class AirplaneModeDialogFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage(R.string.airplaneMode_dialog)
+                    // Button: Go to settings
+                    .setPositiveButton(R.string.airplaneMode_Okay, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // Take user to settings
+                            startActivity(new Intent(Settings.ACTION_AIRPLANE_MODE_SETTINGS));
+                        }
+                    })
+                            // Button: Cancel
+                    .setNegativeButton(R.string.airplaneMode_cancel, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // Close dialog
+                            dialog.dismiss();
+                        }
+                    });
+            return builder.create();
+        }
+    }
+
+
+    private void fireFailedAlert() {
+        DialogFragment downloadFailedDialog = new DownloadFailedDialogFragment();
+        downloadFailedDialog.show(getFragmentManager(), "download_failed");
+    }
+
+    private void checkForUpdates() {
+        boolean airplaneMode = Settings.System.getInt(this.getContentResolver(),
+                Settings.System.AIRPLANE_MODE_ON, 0) != 0;
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        boolean internetAccess = (ni != null && ni.isConnected());
+        if(airplaneMode){
+            DialogFragment airplaneModeDialog = new AirplaneModeDialogFragment();
+            airplaneModeDialog.show(getFragmentManager(), "airplaneMode");
+        } if(!internetAccess) {
+            fireFailedAlert();
+        }
+
+        String url = preferences.getString("questionDataURL", "http://tednewardsandbox.site44.com/questions.json");
+        if(!preferences.contains(DOWNLOAD_ID)) {
+            Uri resource = Uri.parse(url);
+            DownloadManager.Request request = new DownloadManager.Request(resource);
+            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE | DownloadManager.Request.NETWORK_WIFI);
+            request.setAllowedOverRoaming(false);
+            request.setTitle("Download Questions");
+            long id = dm.enqueue(request);
+            preferences.edit().putLong(DOWNLOAD_ID, id).commit();
+        } else {
+            downloadStatus();
+        }
     }
 
 
 
+    // Receiver; is called every x minutes, where x is specified by user in settings
     private final BroadcastReceiver receiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
-            Log.i("MainActivity BR", "BroadcastReceiver onRecieve");
-            SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(context);
-            String url = p.getString("questionDataURL", "default");
+            Log.i("MainActivity BR", "BroadcastReceiver onReceive");
+
+            checkForUpdates();
+
+            String url = preferences.getString("questionDataURL", "http://tednewardsandbox.site44.com/questions.json");
             Toast.makeText(MainActivity.this, "URL: " + url, Toast.LENGTH_SHORT).show();
-            String action = intent.getAction();
-            DownloadManager downloadManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-            if(DownloadManager.ACTION_DOWNLOAD_COMPLETE.equals(action)) {
-                Log.i("MainActivity BR", "Download complete");
-                long downloadID = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, 0);
-                if(downloadID != 0) {
-                    DownloadManager.Query query = new DownloadManager.Query();
-                    query.setFilterById(downloadID);
-                    Cursor c = downloadManager.query(query);
-                    if(c.moveToFirst()) {
-                        int status = c.getInt(c.getColumnIndex(DownloadManager.COLUMN_STATUS));
-                        Log.i("DownloadManager Sample", "Status: " + status);
-                        switch(status) {
-                            case DownloadManager.STATUS_SUCCESSFUL:
-                                ParcelFileDescriptor file;
-                                StringBuilder content = new StringBuilder("");
+            downloadStatus();
 
-                                try {
-                                    file = downloadManager.openDownloadedFile(downloadID);
-                                    FileInputStream fis = new FileInputStream(file.getFileDescriptor());
 
-                                    // Convert file to string
-                                    BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
-
-                                    // Write string to data.json (write method in QuizApp)
-                                    quizApp.writeJSONFile(reader.toString());
-                                } catch (FileNotFoundException e) {
-                                    e.printStackTrace();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                break;
-                            case DownloadManager.STATUS_FAILED:
-                                // Present warning and exit
-                                break;
-                        }
-                    }
-                }
-            }
 
 
         }

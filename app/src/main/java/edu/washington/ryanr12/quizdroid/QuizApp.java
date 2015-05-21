@@ -13,6 +13,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -87,10 +88,12 @@ public class QuizApp extends Application implements TopicRepository {
         try {
             Log.i("QuizApp", "Writing JSON file");
 
-            File file = new File(getFilesDir().getAbsolutePath(), "data.json");
+            File file = new File(getFilesDir().getAbsolutePath(), "questions.json");
             FileOutputStream fos = new FileOutputStream(file);
             fos.write(data.getBytes());
             fos.close();
+            InputStream input = new FileInputStream(file);
+            fetchJSONQuestionData(input);
         }
         catch (IOException e) {
             Log.e("QuizApp", "IOEXception--File write failed: " + e.toString());
